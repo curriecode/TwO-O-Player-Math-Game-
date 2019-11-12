@@ -13,10 +13,3 @@ puts "Thanks #{player2.name}!"
 
 game1 = Game.new(player1, player2)
 game1.generate_challenge()
-
-# Player class, will have methods relevant to players, name and lives
-# will be initialized with name
-#will have method for lifes 
-
-#Game class, will have methods relevent to the game play,
-# questions and math logic

@@ -1,48 +1,41 @@
 class Game
-  attr_reader :player_name_instance
 
   def initialize(player1, player2)
     @player1_instance = player1
     @player2_instance = player2
-    @turn_counter = 1
+    @current_player = @player2_instance
 
     puts "Alright #{@player1_instance.name} here's your first challenge."
   end
 
-
-#generates challenge with player1 name
   def generate_challenge()
-    if @turn_counter % 2 == 0
-      current_player = @player2_instance
-    end
-    if @turn_counter % 2 != 0
-      current_player = @player1_instance
-    end
+    @current_player = set_current_player()
 
     num1 = rand(1...20)
     num2 = rand(1...20)
 
-    puts " #{current_player.name}: What does #{num1} plus #{num2} equal?"
-    answer(num1, num2, current_player)
+    puts " #{@current_player.name}: What does #{num1} plus #{num2} equal?"
+    answer(num1, num2)
   end
 
+  def set_current_player
+    return @current_player == @player1_instance ? @player2_instance : @player1_instance
+  end
 
-  def answer(num1, num2, current_player)
-    # puts "this is #{@player1_instance.points=(@player1_instance.points - 1)}"
-    
+  def answer(num1, num2)
+
     correct_answer = num1 + num2
     player_answer = gets.chomp.to_i
 
     if player_answer == correct_answer
-      puts "#{current_player.name}: YES you are correct."
-      # @player1_instance
+      puts "#{@current_player.name}: YES you are correct."
       display_score()
       display_new_turn()
     else
-      puts "#{current_player.name}: Seriously? No!"
-      current_player.points -= 1
+      puts "#{@current_player.name}: Seriously? No!"
+      @current_player.points -= 1
       display_score()
-      if current_player.points != 0
+      if @current_player.points != 0
         display_new_turn()
       else
         return end_game()
@@ -65,7 +58,6 @@ class Game
   end
 
   def display_new_turn()
-    @turn_counter += 1
     puts "-------------NEW TURN--------------"
     generate_challenge()
   end
